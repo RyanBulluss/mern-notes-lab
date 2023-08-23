@@ -2,26 +2,27 @@ import { useState } from 'react';
 import './App.css';
 import { getUser } from '../../utilities/users-service';
 import AuthPage from '../AuthPage/AuthPage';
-import NewOrderPage from '../NewOrderPage/NewOrderPage';
-import OrderHistoryPage from '../OrderHistoryPage/OrderHistoryPage';
-import NavBar from '../../components/NavBar/NavBar';
+import NotesPage from '../NotesPage/NotesPage';
+import { logOut } from "../../utilities/users-service"
 
+import { Link } from "react-router-dom"
 import { Routes, Route } from 'react-router-dom';
 
 export default function App() {
   const [user, setUser] = useState(getUser());
+
+  function handleLogOut() {
+    logOut();
+    setUser(null);
+}
   
 
   return (
     <main className='container'>
       { user ? 
-        
       <>
-      <NavBar user={user} setUser={setUser} />
-      <Routes>
-        <Route path='/orders/new' element={<NewOrderPage />} />
-        <Route path='/orders' element={<OrderHistoryPage />} />
-      </Routes> 
+      <Link onClick={handleLogOut}>Log Out</Link>
+      <NotesPage user={user} />
       </>
       : 
       <AuthPage setUser={setUser} />
